@@ -55,4 +55,26 @@ describe("Home Page", function () {
 
   });
 
+  it.only("Arrivals-Images-Add to Basket", function () {
+    const imageNumber = Math.floor(Math.random()* 3 );
+    homePage.getNewArrivals().should('have.length',3);
+    
+    homePage.getOneImageInArrivals(imageNumber).then($product => {
+    const price = homePage.getPriceAmount($product);
+    cy.wrap(price).as('productPrice');
+    cy.wrap($product).click();
+    cy.log(price);
+    });
+
+    productPage.getAddToBasket().should('exist');
+    productPage.getAddToBasket().click();
+    homePage.getMenuCartLink().should('contain','1 item');
+
+    cy.get('@productPrice').then(productPrice => {
+      homePage.getMenuCartAmountLink().invoke('text').then(cartPrice =>{
+        expect(cartPrice.trim()).to.eq(productPrice);
+      });
+    });
+
+  });
 });
