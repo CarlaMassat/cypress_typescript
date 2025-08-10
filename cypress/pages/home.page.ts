@@ -28,13 +28,36 @@ class HomePage {
         return this.newArrivalsSection().find('>div');
     }
 
-    getOneImageInArrivals(n: number) : Cypress.Chainable {
+    getOneImageInArrivals(index: number) : Cypress.Chainable {
+        const n = index + 1
        if (n > 0 && n < 4) {
         return this.newArrivalsSection().find(`>div:nth-child(${n})`);
        } 
        else{
         throw new Error('The value is incorrect');
        }
+    }
+
+   
+     getMenuCartLink() : Cypress.Chainable {
+        return this.menuCartLink().find('a > span.cartcontents');
+    }
+
+     getMenuCartAmountLink() : Cypress.Chainable {
+        return this.menuCartLink().find('a > span.amount');
+    }
+
+    getPriceAmount(productElement: JQuery<HTMLElement>) : string {
+        const discounted = productElement
+        .find('ins .woocommerce-Price-amount');
+         if (discounted.length > 0) {
+            return discounted.text().trim();
+         }
+         else {
+            const normalPrice = productElement
+            .find('.woocommerce-Price-amount');
+            return normalPrice.text().trim();
+         }      
     }
 
 }
