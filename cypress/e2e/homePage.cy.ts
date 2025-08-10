@@ -55,7 +55,7 @@ describe("Home Page", function () {
 
   });
 
-  it.only("Arrivals-Images-Add to Basket", function () {
+  it("Arrivals-Images-Add to Basket", function () {
     const imageNumber = Math.floor(Math.random()* 3 );
     homePage.getNewArrivals().should('have.length',3);
     
